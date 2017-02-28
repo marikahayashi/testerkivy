@@ -9,6 +9,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.uix.modalview import ModalView
+from kivy.config import Config
 import threading
 import serial
 import sys
@@ -40,13 +41,14 @@ class TesterKivyApp(App):
 
 
     def build(self):
-        root = BoxLayout(orientation=('vertical'))
+        root = BoxLayout(orientation=('vertical'), padding=20)
         Window.bind(on_resize=self.resize_font)
         scrollview1 = ScrollView(size_hint_y=0.5,
                                  spacing=20, padding=20)
-        boxlayout1 = BoxLayout(size_hint_y=0.15, spacing=20, padding=20)
-        boxlayout2 = BoxLayout(size_hint_y=0.35, spacing=20, padding=20,
+        boxlayout1 = BoxLayout(size_hint_y=0.15, spacing=20, padding=10)#, padding=20)
+        boxlayout2 = BoxLayout(size_hint_y=0.35, spacing=20,
                                orientation=('vertical'))
+                               #padding=20)
         root.add_widget(scrollview1)
         root.add_widget(boxlayout1)
         root.add_widget(boxlayout2)
@@ -61,9 +63,10 @@ class TesterKivyApp(App):
             self.buttons[-1].bind(on_press=self.show_modalview)
             boxlayout1.add_widget(self.buttons[-1])
             
-        gridlayout1 = GridLayout(padding=20,spacing=20,
+        gridlayout1 = GridLayout(spacing=20,
                                  col_force_default=False,
                                  cols=5, rows=4)
+                                 #padding=20)
         scrollview1.add_widget(gridlayout1)
         # もし左詰めが見にくければ、
         # *LayoutとLabelを使って背景色とalignを実現する
@@ -71,7 +74,7 @@ class TesterKivyApp(App):
         for i in range(20):
             self.textboxes.append(
                 TextInput(readonly=True, font_name=font_name_digi,
-                          text=str(16000+i), font_size=43,
+                          text=str(16000+i), font_size=20,
                           background_color=[0.2, 0.7, 0.6, 1],
                           multiline=False,
                           border=[6, 6, 6, 6]))
@@ -81,12 +84,14 @@ class TesterKivyApp(App):
                                      font_name=self.font_name_ja,
                                      multiline=False, readonly=True,
                                      foreground_color=[0,0,0,1],
-                                     background_color=[0.9, 0.9, 0.9, 1])
+                                     background_color=[0.9, 0.9, 0.9, 1],
+                                     font_size=12)
         boxlayout2.add_widget(self.textbox_msg)
         
         self.textbox_log = TextInput(size_hint_y=0.8,
                                      font_name=self.font_name_ja,
-                                     readonly=True)
+                                     readonly=True,
+                                     font_size=12)
         boxlayout2.add_widget(self.textbox_log)
 
         return root
@@ -147,71 +152,83 @@ with this configuration?"""
 
 
     def resize_font(self,src1, src2, src3):
-        print "height %s" % self.root.height
-        print "width %s" % self.root.width
+        #print "height %s" % self.root.height
+        #print "width %s" % self.root.width
         if self.root.height > 590:
             if self.root.width > 650:
-                print "font_size=43"
+                #print "font_size=43"
                 for tb in self.textboxes:
                     tb.font_size=43
             elif self.root.width > 610:
-                print "font_size=38"
+                #print "font_size=38"
                 for tb in self.textboxes:
                     tb.font_size=38
             elif self.root.width > 560:
-                print "font_size=32"
+                #print "font_size=32"
                 for tb in self.textboxes:
                     tb.font_size=32
             else:
-                print "font_size=30"
+                #print "font_size=30"
                 for tb in self.textboxes:
                     tb.font_size=30
 
         elif self.root.height > 580:
             if self.root.width > 650:
-                print "font_size=40"
+                #print "font_size=40"
                 for tb in self.textboxes:
                     tb.font_size=40
             elif self.root.width > 610:
-                print "font_size=38"
+                #print "font_size=38"
                 for tb in self.textboxes:
                     tb.font_size=38
             elif self.root.width > 560:
-                print "font_size=32"
+                #print "font_size=32"
                 for tb in self.textboxes:
                     tb.font_size=32
             else:
-                print "font_size=30"
+                #print "font_size=30"
                 for tb in self.textboxes:
                     tb.font_size=30
 
         elif self.root.height > 555:
             if self.root.width > 560:
-                print "font_size=32"
+                #print "font_size=32"
                 for tb in self.textboxes:
                     tb.font_size=32
             else:
-                print "font_size=30"
+                #print "font_size=30"
                 for tb in self.textboxes:
                     tb.font_size=30
 
         elif self.root.height > 540:
-            print "font_size=28"
+            #print "font_size=28"
             for tb in self.textboxes:
                 tb.font_size=28
 
         elif self.root.height > 530:
-            print "font_size=26"
+            #print "font_size=26"
             for tb in self.textboxes:
                 tb.font_size=26
         elif self.root.height > 520:
-            print "font_size=24"
+            #print "font_size=24"
             for tb in self.textboxes:
                 tb.font_size=24
         elif self.root.height > 500:
-            print "font_size=20"
+            #print "font_size=22"
+            for tb in self.textboxes:
+                tb.font_size=22
+        elif self.root.height > 450:
+            #print "font_size=20"
             for tb in self.textboxes:
                 tb.font_size=20
+        elif self.root.height > 400:
+            #print "font_size=18"
+            for tb in self.textboxes:
+                tb.font_size=18
+        elif self.root.height > 350:
+            #print "font_size=16"
+            for tb in self.textboxes:
+                tb.font_size=16
 
 
     def update_indicators(self, data):
@@ -249,6 +266,7 @@ with this configuration?"""
 
 if __name__ == '__main__':
     tkapp = TesterKivyApp()
+    Window.size = (770,420)
     tkapp.thread_start()
     try:
         tkapp.run()
