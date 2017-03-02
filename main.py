@@ -232,6 +232,8 @@ with this configuration?"""
 
 
     def update_indicators(self, data):
+        if not hasattr(self, 'textboxes'):
+            return
         if len(data) != len(self.textboxes):
             sys.stderr.write("data length is not same with num. of indicators\n")
             return
@@ -240,7 +242,7 @@ with this configuration?"""
 
 
     def recv_main(self):
-        self.open_serial(port="/dev/ttyUSB0", baud=115200)
+        self.open_serial(port="/dev/ttyS0", baud=115200)
         # for test
         data_indicators = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
                            10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
@@ -267,6 +269,9 @@ with this configuration?"""
 if __name__ == '__main__':
     tkapp = TesterKivyApp()
     Window.size = (770,420)
+    Window.position = 'custom'
+    Window.top = 10
+    Window.maximize()
     tkapp.thread_start()
     try:
         tkapp.run()
